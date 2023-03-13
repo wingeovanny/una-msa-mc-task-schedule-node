@@ -1,1 +1,1 @@
-export { config as default } from './src/config/connection.orm.config';
+export { localConfig as default } from './src/config/connection.orm.config';

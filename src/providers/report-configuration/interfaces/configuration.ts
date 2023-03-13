@@ -10,8 +10,6 @@ export interface Configurations {
   cutOffTime: string[];
   cutOffDay: null | string;
   mails: string[];
-  cronRepresentation: null;
-  lastSend: null;
   status: Status;
   createDate: Date;
   updateDate: Date;

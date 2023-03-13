@@ -10,12 +10,13 @@
     "start:dev": "LOCAL=true nest start",
     "start:dev:windows": "set LOCAL=true && nest start",
     "test:coverage": "jest --coverage  --forceExit",
-    "typeorm": "node --conditions=typescript -r ts-node/register node_modules/typeorm/cli.js",
-    "typeorm:migrate:local": "LOCAL=true npm run typeorm -- migration:run -c bo-mc-task-schedule",
-    "typeorm:revert:local": "LOCAL=true npm run typeorm -- migration:revert -c bo-mc-task-schedule",
-    "typeorm:generate:local": "LOCAL=true npm run typeorm -- migration:generate  -c bo-mc-task-schedule -n ",
-    "seed": "ts-node node_modules/typeorm-seeding/dist/cli.js seed -c bo-mc-task-schedule",
-    "build": "nest build && copyfiles .env* ./dist/"
+    "typeorm": "LOCAL=true node --conditions=typescript -r ts-node/register node_modules/typeorm/cli.js",
+    "typeorm:migrate": "npm run typeorm -- migration:run -c bo-mc-tasks-db",
+    "typeorm:revert": "npm run typeorm -- migration:revert -c bo-mc-tasks-db",
+    "typeorm:generate": "npm run typeorm -- migration:generate bo-mc-tasks-db -c reporter -n ",
+    "typeorm:create": "npm run typeorm -- migration:create -c bo-mc-tasks-db -n ",
+    "seed": "ts-node node_modules/typeorm-seeding/dist/cli.js seed -c bo-mc-tasks-db",
+    "build": "nest build && copyfiles .env.* ./dist/"
   },
   "dependencies": {
     "@deuna/node-database-lib": "^0.0.275615-master",
