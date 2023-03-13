@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="7" failures="0" errors="0" time="3.974">
+  <testsuite name="ReportsController" errors="0" failures="0" skipped="0" timestamp="2023-03-13T17:55:16" time="2.164" tests="1">
+    <testcase classname="ReportsController should be defined" name="ReportsController should be defined" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Reporter DB service" errors="0" failures="0" skipped="0" timestamp="2023-03-13T17:55:16" time="3.113" tests="5">
+    <testcase classname="Reporter DB service should be defined" name="Reporter DB service should be defined" time="0.007">
+    </testcase>
+    <testcase classname="Reporter DB service Create a new record and return Should call the correct function with return the correct data" name="Reporter DB service Create a new record and return Should call the correct function with return the correct data" time="0.003">
+    </testcase>
+    <testcase classname="Reporter DB service Find a item by id Should return a specific Report data with a ID" name="Reporter DB service Find a item by id Should return a specific Report data with a ID" time="0.002">
+    </testcase>
+    <testcase classname="Reporter DB service Update a item by id Should return affected 1 by updated" name="Reporter DB service Update a item by id Should return affected 1 by updated" time="0.001">
+    </testcase>
+    <testcase classname="Reporter DB service isDbConnectionAlive given need validate connection to database when call method then isDbConnectionAlive then return databases is true" name="Reporter DB service isDbConnectionAlive given need validate connection to database when call method then isDbConnectionAlive then return databases is true" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="ReportsService" errors="0" failures="0" skipped="0" timestamp="2023-03-13T17:55:16" time="3.145" tests="1">
+    <testcase classname="ReportsService should be defined" name="ReportsService should be defined" time="0.007">
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -65,25 +65,3 @@ export class UpdateReportsDto {
   @IsString()
   updatedBy: string;
 }
-
-export class ReportSendMailDto {
-  //metadata: Record<string, unknown>;
-  @IsString()
-  merchantId: string;
-
-  @IsString()
-  reportId: string;
-
-  @IsString()
-  @IsEnum(Type)
-  type: Type;
-
-  @IsString()
-  @IsEnum(Level)
-  level: Level;
-
-  @IsString()
-  daysFrequency: string;
-
-  mails: string[];
-}

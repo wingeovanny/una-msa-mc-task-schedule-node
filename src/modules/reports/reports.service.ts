@@ -6,11 +6,7 @@ import { ReportConfigurationProvider } from '../../providers/report-configuratio
 import { ReportsDbService } from '../../db/reports/reports.service';
 import { FREQUENCY_STRATEGIES } from '../../utils/strategy/strategies-object';
 import { ClientKafka } from '@nestjs/microservices';
-import {
-  CreateReportsDto,
-  ReportSendMailDto,
-  UpdateReportsDto,
-} from './reports.dto';
+import { CreateReportsDto, UpdateReportsDto } from './reports.dto';
 import { SEND_MAIL_REPORT_MERCHANT } from '../../constants/common';
 import { Logger } from '@deuna/node-logger-lib';
 import { publishToQueue } from '@deuna/node-shared-lib';
@@ -88,19 +84,11 @@ export class ReportsService {
   }
 
   async recordSendMailKafka(dataMailReport: Configurations): Promise<void> {
-    const dataMail: ReportSendMailDto = {
-      merchantId: dataMailReport.merchantId,
-      reportId: dataMailReport.id,
-      type: dataMailReport.type,
-      level: dataMailReport.level,
-      daysFrequency: dataMailReport.daysFrequency,
-      mails: dataMailReport.mails,
-    };
     this.logger.log(`Writing in the ${SEND_MAIL_REPORT_MERCHANT} topic`);
     try {
       const res = await publishToQueue(this.kafkaClient, {
         topic: SEND_MAIL_REPORT_MERCHANT,
-        value: { configMail: dataMail },
+        value: { configMail: dataMailReport },
         headers: {
           source: '@lxba/bo-mc-task-schedule',
           timestamp: new Date().toISOString(),
@@ -172,4 +160,11 @@ export class ReportsService {
       console.log('NO actualizo');
     }
   }
+
+  /* @EventPattern(SEND_MAIL_REPORT_MERCHANT)
+     public hearLogTransaction(@Payload() responseConfigMailKafka: any) {
+       console.log('LECTURA... ', responseConfigMailKafka);
+       //const jsonString = JSON.stringify(responseConfigMailKafka);
+     }
+     */
 }
