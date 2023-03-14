@@ -42,7 +42,7 @@ export class ReportsService {
 
   async getReportsConfig() {
     const hour = getHour();
-    return this.providerConfiguration.getConfigByNode(hour);
+    return this.providerConfiguration.getConfigReportByHour(hour);
   }
 
   async getDataFromControlSend(id: string): Promise<ReportControlSend> {
@@ -56,16 +56,12 @@ export class ReportsService {
     const { daysFrequency, cutOffDay } = itemReport;
 
     if (localReport) {
-      console.log('SI LOCAL 1', localReport);
-      console.log('NO LOCAL 1', itemReport);
       return this.shouldSendEmailConfig(
         daysFrequency,
         +cutOffDay,
         localReport.lastSend,
       );
     } else {
-      console.log('NO LOCAL 2', itemReport);
-      console.log('SI LOCAL 2', localReport);
       return this.shouldSendEmailConfig(daysFrequency, +cutOffDay);
     }
   }
@@ -86,7 +82,7 @@ export class ReportsService {
   async recordSendMailKafka(dataMailReport: Configurations): Promise<void> {
     this.logger.log(`Writing in the ${SEND_MAIL_REPORT_MERCHANT} topic`);
     try {
-      const res = await publishToQueue(this.kafkaClient, {
+      await publishToQueue(this.kafkaClient, {
         topic: SEND_MAIL_REPORT_MERCHANT,
         value: { configMail: dataMailReport },
         headers: {
@@ -94,10 +90,9 @@ export class ReportsService {
           timestamp: new Date().toISOString(),
         },
       });
-      console.log('Respuesta kafka !!!!!');
-      console.log(res);
-    } catch (error) {
-      console.log('KAFKA error !!!!!', error);
+      //console.log('Respuesta kafka !!!!!', res);
+    } catch {
+      // console.log('KAFKA error !!!!!', error);
     }
   }
 
@@ -112,15 +107,12 @@ export class ReportsService {
     }
   }
 
-  async createReportsDbControl(reportCreate: Configurations) {
+  async createReportsDbControl(reportCreate: Configurations): Promise<void> {
     const data = this.buildCreateReportsDto(reportCreate);
-    const result = await this.dbService.create(data);
-    return result;
+    await this.dbService.create(data);
   }
 
-  private buildCreateReportsDto(
-    reportCreate: Configurations,
-  ): CreateReportsDto {
+  buildCreateReportsDto(reportCreate: Configurations): CreateReportsDto {
     const {
       merchantId,
       id,
@@ -153,12 +145,8 @@ export class ReportsService {
       lastSend: new Date(),
       updatedBy: 'jobsReports',
     };
-    const result = await this.dbService.update(id, data);
-    if (result.affected) {
-      return { status: true, message: `This item has been updated ${id}` };
-    } else {
-      console.log('NO actualizo');
-    }
+
+    await this.dbService.update(id, data);
   }
 
   /* @EventPattern(SEND_MAIL_REPORT_MERCHANT)

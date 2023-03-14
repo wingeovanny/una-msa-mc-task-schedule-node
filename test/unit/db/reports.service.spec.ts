@@ -1,19 +1,14 @@
-import { CreateReportsDto } from './../../../src/modules/reports/reports.dto';
 import { Test, TestingModule } from '@nestjs/testing';
-
 import { DatabaseService } from '@deuna/node-database-lib';
-
 import { Repository } from 'typeorm';
 import { ReportsDbService } from '../../../src/db/reports/reports.service';
 import {
-  Type,
-  Level,
-  UpdateReportsDto,
-} from '../../../src/modules/reports/reports.dto';
-import {
   mockCreateReportControl,
+  mockCreateReportControlDto,
   mockResponseCreateReportControl,
-} from '../modules/reports/mock-data';
+  updateDto,
+} from '../mock-data';
+import { ReportControlSend } from '../../../src/db/reports/report-control-send.entity';
 
 jest.useFakeTimers();
 jest.spyOn(global, 'setInterval');
@@ -21,27 +16,6 @@ export const idTestUuid = '4ac265d6-7a33-4ab2-a0b0-b31eaf63c5f8;';
 describe('Reporter DB service', () => {
   let serviceDb: ReportsDbService;
   let dbRepository: DatabaseService;
-
-  const mockCreateReportControlDto: CreateReportsDto = {
-    merchantId: '8484accb-e717-4d80-8f48-55fa193bd193',
-    reportId: '8484accb-e717-4d80-8f48-55fa193bd193',
-    type: Type.Sales,
-    level: Level.Unified,
-    lastSend: new Date('2023-02-04T04:28:43.077Z'),
-    daysFrequency: '15',
-    cutOffDay: '1',
-    cutOffTime: ['09:00'],
-    createdBy: 'ebucayle',
-    updatedBy: '',
-  };
-
-  const updateDto: UpdateReportsDto = {
-    cutOffDay: '1',
-    cutOffTime: ['09:00'],
-    daysFrequency: '15',
-    updatedBy: 'fernando',
-    lastSend: new Date('2023-02-17 22:16:56.507623'),
-  };
 
   const mockSave = jest.fn(() => Promise.resolve(mockCreateReportControl));
   const mockFindOne = jest.fn(() =>
@@ -91,6 +65,26 @@ describe('Reporter DB service', () => {
     expect(dbRepository).toBeDefined();
   });
 
+  describe('onModuleInit', () => {
+    it('should initialize the database connection and set the repository', async () => {
+      await serviceDb.onModuleInit();
+      // expect(dbRepository.init).toHaveBeenCalledWith(config);
+      expect(dbRepository.getRepository).toHaveBeenCalledWith(
+        ReportControlSend,
+      );
+    });
+
+    it('should refresh the database connection and set the repository if DB_ROTATING_KEY is true', async () => {
+      process.env.DB_ROTATING_KEY = 'true';
+      process.env.DB_CONNECTION_REFRESH_MINUTES = '1';
+      await serviceDb.onModuleInit();
+      // expect(dbRepository.init).toHaveBeenCalledWith(config);
+      expect(dbRepository.getRepository).toHaveBeenCalledWith(
+        ReportControlSend,
+      );
+      jest.advanceTimersByTime(60 * 1000);
+    });
+  });
   describe('Create a new record and return', () => {
     beforeAll(() => {
       serviceDb.onModuleInit();

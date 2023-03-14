@@ -1,23 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="7" failures="0" errors="0" time="3.974">
-  <testsuite name="ReportsController" errors="0" failures="0" skipped="0" timestamp="2023-03-13T17:55:16" time="2.164" tests="1">
-    <testcase classname="ReportsController should be defined" name="ReportsController should be defined" time="0.007">
+<testsuites name="jest tests" tests="26" failures="1" errors="0" time="4.273">
+  <testsuite name="ReportsController" errors="0" failures="0" skipped="0" timestamp="2023-03-14T01:42:13" time="2.291" tests="1">
+    <testcase classname="ReportsController should be defined" name="ReportsController should be defined" time="0.011">
     </testcase>
   </testsuite>
-  <testsuite name="Reporter DB service" errors="0" failures="0" skipped="0" timestamp="2023-03-13T17:55:16" time="3.113" tests="5">
+  <testsuite name="ReportConfiguration Provider" errors="0" failures="0" skipped="0" timestamp="2023-03-14T01:42:13" time="2.406" tests="2">
+    <testcase classname="ReportConfiguration Provider should be defined" name="ReportConfiguration Provider should be defined" time="0.008">
+    </testcase>
+    <testcase classname="ReportConfiguration Provider getConfigReportByHour should return a client object if the request is successful" name="ReportConfiguration Provider getConfigReportByHour should return a client object if the request is successful" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="ReportsService" errors="0" failures="1" skipped="0" timestamp="2023-03-14T01:42:13" time="3.089" tests="16">
+    <testcase classname="ReportsService should be defined" name="ReportsService should be defined" time="0.008">
+    </testcase>
+    <testcase classname="ReportsService generateReportsMerchants should not call the recordSendMailKafka or registerSendMailDbControl methods if no emails should be sent" name="ReportsService generateReportsMerchants should not call the recordSendMailKafka or registerSendMailDbControl methods if no emails should be sent" time="0.002">
+    </testcase>
+    <testcase classname="ReportsService generateReportsMerchants should call the recordSendMailKafka and registerSendMailDbControl methods if emails should be sent" name="ReportsService generateReportsMerchants should call the recordSendMailKafka and registerSendMailDbControl methods if emails should be sent" time="0.003">
+    </testcase>
+    <testcase classname="ReportsService getReportsConfig should return data of confgis reports from provider reports" name="ReportsService getReportsConfig should return data of confgis reports from provider reports" time="0.002">
+    </testcase>
+    <testcase classname="ReportsService getDataFromControlSend should return data of confgis reports from data base" name="ReportsService getDataFromControlSend should return data of confgis reports from data base" time="0.002">
+    </testcase>
+    <testcase classname="ReportsService shouldSendEmail should call shouldSendEmailConfig with the correct parameters when localReport is undefined" name="ReportsService shouldSendEmail should call shouldSendEmailConfig with the correct parameters when localReport is undefined" time="0.001">
+    </testcase>
+    <testcase classname="ReportsService shouldSendEmail should call shouldSendEmailConfig with the correct parameters when localReport is defined" name="ReportsService shouldSendEmail should call shouldSendEmailConfig with the correct parameters when localReport is defined" time="0.001">
+    </testcase>
+    <testcase classname="ReportsService shouldSendEmail should return the value returned by shouldSendEmailConfig" name="ReportsService shouldSendEmail should return the value returned by shouldSendEmailConfig" time="0.002">
+    </testcase>
+    <testcase classname="ReportsService should publish to the SEND_MAIL_REPORT_MERCHANT topic" name="ReportsService should publish to the SEND_MAIL_REPORT_MERCHANT topic" time="0.003">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: {&quot;headers&quot;: {&quot;source&quot;: &quot;@lxba/bo-mc-task-schedule&quot;, &quot;timestamp&quot;: Any&lt;String&gt;}, &quot;topic&quot;: &quot;send.mail.report.merchant&quot;, &quot;value&quot;: {&quot;configMail&quot;: {&quot;createDate&quot;: 2023-03-09T21:16:48.144Z, &quot;createdBy&quot;: &quot;ebucayle&quot;, &quot;cutOffDay&quot;: &quot;2&quot;, &quot;cutOffTime&quot;: [&quot;10:00&quot;], &quot;daysFrequency&quot;: &quot;7&quot;, &quot;id&quot;: &quot;123&quot;, &quot;level&quot;: &quot;BRANCH&quot;, &quot;mails&quot;: [&quot;correoquincenalunificado@gmail.com&quot;, &quot;correoquicenalunificado12@gmail.com&quot;], &quot;merchantId&quot;: &quot;8484accb-e717-4d80-8f48-55fa193bd193&quot;, &quot;name&quot;: &quot;SALES_1232345&quot;, &quot;status&quot;: &quot;ACTIVE&quot;, &quot;type&quot;: &quot;CONSOLIDATE&quot;, &quot;updateDate&quot;: 2023-03-09T21:16:48.144Z, &quot;updatedBy&quot;: &quot;&quot;}}}
+
+Number of calls: 0
+    at Object.&lt;anonymous&gt; (/Users/ebucay/Documents/DevUna/Merchant/Back/una-msa-mc-task-schedule-node/test/unit/modules/reports/reports.service.spec.ts:242:22)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
+    </testcase>
+    <testcase classname="ReportsService registerSendMailDbControl should call updateReportsDbControl when localReport is defined" name="ReportsService registerSendMailDbControl should call updateReportsDbControl when localReport is defined" time="0.003">
+    </testcase>
+    <testcase classname="ReportsService registerSendMailDbControl should call createReportsDbControl when localReport is undefined" name="ReportsService registerSendMailDbControl should call createReportsDbControl when localReport is undefined" time="0.001">
+    </testcase>
+    <testcase classname="ReportsService createReportsDbControl should create a new report with the correct data" name="ReportsService createReportsDbControl should create a new report with the correct data" time="0.002">
+    </testcase>
+    <testcase classname="ReportsService reportCreate should return a CreateReportsDto object with the correct values" name="ReportsService reportCreate should return a CreateReportsDto object with the correct values" time="0.001">
+    </testcase>
+    <testcase classname="ReportsService updateReportsDbControl should call dbService.update with the correct arguments" name="ReportsService updateReportsDbControl should call dbService.update with the correct arguments" time="0.001">
+    </testcase>
+    <testcase classname="ReportsService shouldSendEmailConfig should call shouldSendEmail method of the strategy with the correct parameters" name="ReportsService shouldSendEmailConfig should call shouldSendEmail method of the strategy with the correct parameters" time="0.001">
+    </testcase>
+    <testcase classname="ReportsService shouldSendEmailConfig should return the value returned by shouldSendEmail method of the strategy" name="ReportsService shouldSendEmailConfig should return the value returned by shouldSendEmail method of the strategy" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Reporter DB service" errors="0" failures="0" skipped="0" timestamp="2023-03-14T01:42:13" time="3.89" tests="7">
     <testcase classname="Reporter DB service should be defined" name="Reporter DB service should be defined" time="0.007">
     </testcase>
-    <testcase classname="Reporter DB service Create a new record and return Should call the correct function with return the correct data" name="Reporter DB service Create a new record and return Should call the correct function with return the correct data" time="0.003">
+    <testcase classname="Reporter DB service onModuleInit should initialize the database connection and set the repository" name="Reporter DB service onModuleInit should initialize the database connection and set the repository" time="0.988">
+    </testcase>
+    <testcase classname="Reporter DB service onModuleInit should refresh the database connection and set the repository if DB_ROTATING_KEY is true" name="Reporter DB service onModuleInit should refresh the database connection and set the repository if DB_ROTATING_KEY is true" time="0.003">
+    </testcase>
+    <testcase classname="Reporter DB service Create a new record and return Should call the correct function with return the correct data" name="Reporter DB service Create a new record and return Should call the correct function with return the correct data" time="0.001">
     </testcase>
     <testcase classname="Reporter DB service Find a item by id Should return a specific Report data with a ID" name="Reporter DB service Find a item by id Should return a specific Report data with a ID" time="0.002">
     </testcase>
-    <testcase classname="Reporter DB service Update a item by id Should return affected 1 by updated" name="Reporter DB service Update a item by id Should return affected 1 by updated" time="0.001">
+    <testcase classname="Reporter DB service Update a item by id Should return affected 1 by updated" name="Reporter DB service Update a item by id Should return affected 1 by updated" time="0.002">
     </testcase>
-    <testcase classname="Reporter DB service isDbConnectionAlive given need validate connection to database when call method then isDbConnectionAlive then return databases is true" name="Reporter DB service isDbConnectionAlive given need validate connection to database when call method then isDbConnectionAlive then return databases is true" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="ReportsService" errors="0" failures="0" skipped="0" timestamp="2023-03-13T17:55:16" time="3.145" tests="1">
-    <testcase classname="ReportsService should be defined" name="ReportsService should be defined" time="0.007">
+    <testcase classname="Reporter DB service isDbConnectionAlive given need validate connection to database when call method then isDbConnectionAlive then return databases is true" name="Reporter DB service isDbConnectionAlive given need validate connection to database when call method then isDbConnectionAlive then return databases is true" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
